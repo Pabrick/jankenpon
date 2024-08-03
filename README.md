@@ -98,7 +98,7 @@ _Remote playing mode has been simplify on the diagram for clarity of the rest of
 This whole branch of the diagram has not been implemented.
 Ideally this can be achieved with Websockets.
 The player 1 will open the conection and will listen until Player 2 connects.
-Once both responses are OK we can star playing.
+Once both responses are OK we can start playing.
 
 ## Switch from localStorage to server Database
 
