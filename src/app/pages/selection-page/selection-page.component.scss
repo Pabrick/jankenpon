@@ -1,0 +1,42 @@
+@use "./../../styles/elements/box.scss";
+@use "./../../styles/elements/text.scss";
+
+:host {
+  @extend .box;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .page-title {
+    @extend .text;
+    font-size: calc(var(--text-size--subtitle));
+    text-align: center;
+  }
+
+  .wrapper {
+    margin-top: var(--text-size);
+
+    display: grid;
+    grid-template-rows: auto;
+    justify-content: space-between;
+    flex: 0 1 0;
+
+    @media screen and (min-width: 650px) {
+      grid-template-columns: 30% 30% 30%;
+    }
+
+    .bt-opponent {
+      margin: calc(var(--size) * 2);
+
+      &__icon {
+        font-size: calc(var(--text-size) * 2);
+      }
+      &__text {
+        font-size: calc(var(--text-size) * 1);
+      }
+    }
+  }
+}

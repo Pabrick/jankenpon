@@ -1,0 +1,23 @@
+:root {
+  --button-color--border: rgb(201, 201, 201);
+  --button-color--background: rgb(255, 255, 255);
+  --button-color--background-hover: rgb(230, 230, 230);
+}
+
+.input {
+  box-sizing: border-box;
+  border-radius: calc(var(--size) * 4);
+  border: calc(var(--size) / 2) solid var(--button-color--border);
+  background-color: var(--button-color--background);
+
+  padding: calc(var(--size) * 2) calc(var(--size) * 4);
+  font-family: var(--font-primary);
+  font-size: calc(var(--text-size) / 1.5);
+  line-height: 1;
+
+  min-width: min-content;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}

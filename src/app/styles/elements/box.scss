@@ -1,0 +1,16 @@
+:root {
+  --box-color: rgba(255, 200, 62, 0.2);
+  --box-color--border: rgba(255, 200, 62, 1);
+}
+
+.box {
+  box-sizing: border-box;
+  border-radius: calc(var(--size) * 10);
+  border: calc(var(--size) * 4) solid var(--box-color--border);
+  background-color: var(--box-color);
+
+  --box-shadow-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 5px 10px -3px var(--box-shadow-color);
+
+  padding: calc(var(--size) * 4);
+}

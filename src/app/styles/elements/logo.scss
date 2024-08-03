@@ -1,0 +1,43 @@
+.logo {
+  text-align: center;
+
+  min-width: 320px;
+  position: relative;
+  line-height: 1;
+
+  &__icons {
+    width: 100%;
+    font-size: calc(var(--text-size--title) * 2);
+
+    &--rock,
+    &--paper,
+    &--scissors {
+      position: relative;
+      display: inline-block;
+      text-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
+      --separation: 20px;
+    }
+
+    &--rock {
+      transform: rotate(-30deg);
+      left: var(--separation);
+    }
+
+    &--scissors {
+      transform: rotate(30deg);
+      right: var(--separation);
+    }
+  }
+
+  &__title {
+    width: 100%;
+    color: rgba(0, 0, 0, 0.8);
+    font-family: var(--font-primary);
+    font-size: var(--text-size--title);
+    letter-spacing: -0.125rem;
+
+    position: absolute;
+    z-index: 1;
+    top: calc(var(--text-size) * 1.5);
+  }
+}

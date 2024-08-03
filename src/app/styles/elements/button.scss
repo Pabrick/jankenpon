@@ -1,0 +1,28 @@
+:root {
+  --button-color--border: rgb(201, 201, 201);
+  --button-color--background: rgb(255, 255, 255);
+  --button-color--background-hover: rgb(230, 230, 230);
+}
+
+.button {
+  cursor: pointer;
+  box-sizing: border-box;
+  border-radius: calc(var(--size) * 4);
+  border: var(--size) solid var(--button-color--border);
+  background-color: var(--button-color--background);
+
+  padding: calc(var(--size) * 2);
+  font-family: var(--font-primary);
+  font-size: calc(var(--text-size) / 1.5);
+  line-height: 1;
+
+  min-width: min-content;
+
+  &:hover {
+    background: var(--button-color--background-hover);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,50 @@
+:host {
+  .player-1-colors {
+    --box-color: rgba(207, 236, 247, 1);
+    --box-color--border: rgba(28, 150, 197, 1);
+  }
+
+  .player-2-colors {
+    --box-color: rgba(244, 193, 193, 1);
+    --box-color--border: rgba(199, 0, 0, 1);
+  }
+
+  .player-3-colors {
+    --box-color: rgba(240, 247, 218, 1);
+    --box-color--border: rgba(54, 128, 45, 1);
+  }
+
+  height: 100%;
+
+  --space-between: calc(var(--size) * 2);
+
+  display: grid;
+  grid-template-rows: auto min-content;
+  grid-template-columns: 100%;
+  gap: var(--space-between);
+  justify-content: center;
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+    .back,
+    .again {
+      width: 40%;
+      justify-self: center;
+
+      @media screen and (min-width: 768px) {
+        width: 10%;
+      }
+    }
+  }
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-between);
+
+    @media screen and (min-width: 768px) {
+      flex-direction: row;
+    }
+  }
+}

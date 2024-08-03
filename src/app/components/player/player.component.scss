@@ -1,0 +1,175 @@
+@use "./../../styles/elements/box.scss";
+@use "./../../styles/elements/button.scss";
+@use "./../../styles/elements/text.scss";
+
+:host {
+  @extend .box;
+  position: relative;
+  overflow: hidden;
+
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--size);
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  .modal {
+    @extend .overlay;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .content {
+      @extend .box;
+      width: 80%;
+      display: grid;
+      grid-template-columns: 100%;
+      grid-template-rows: auto auto min-content;
+      gap: calc(var(--size) * 2);
+      text-align: center;
+
+      .title,
+      .text {
+        @extend .text;
+      }
+      .title {
+        font-size: calc(var(--text-size--subtitle) / 1.5);
+      }
+      .text {
+        font-size: calc(var(--text-size--subtitle) / 2);
+      }
+
+      .button {
+        width: 30%;
+        text-align: center;
+        margin: 0 var(--size);
+      }
+    }
+  }
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .title,
+    .score {
+      @extend .text;
+      font-size: var(--text-size--subtitle);
+    }
+
+    .title {
+      text-align: left;
+      text-transform: capitalize;
+    }
+
+    .score {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+
+  .name {
+    flex: 1;
+
+    width: 75%;
+    min-width: min-content;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-content: center;
+    gap: calc(var(--size) * 4);
+
+    @media screen and (min-width: 768px) {
+      width: 50%;
+    }
+
+    label {
+      @extend .text;
+      font-size: calc(var(--text-size--subtitle) / 2);
+    }
+
+    .bt-save {
+      @extend .button;
+      width: 50%;
+      align-self: center;
+    }
+  }
+
+  .choice,
+  .result {
+    label {
+      @extend .text;
+      font-size: calc(var(--text-size--subtitle) / 1.5);
+      align-self: center;
+
+      @media screen and (min-width: 768px) {
+        font-size: calc(var(--text-size--subtitle) / 2);
+      }
+    }
+  }
+
+  .choice {
+    flex: 1;
+    min-width: min-content;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-content: center;
+    gap: calc(var(--size) * 4);
+
+    .button-wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .bt-choice {
+      @extend .button;
+      box-sizing: border-box;
+      align-self: center;
+      width: min-content;
+      font-size: calc(var(--size) * 10);
+      margin: var(--size);
+      padding: calc(var(--size) * 4);
+    }
+
+    @media screen and (min-width: 768px) {
+      .bt-choice {
+        font-size: calc(var(--size) * 14);
+      }
+    }
+  }
+}
+
+.result {
+  flex: 1;
+  min-width: min-content;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: calc(var(--size) * 4);
+
+  .selection {
+    @extend .box;
+    --box-color: rgba(255, 255, 255, 0.2);
+    --box-color--border: rgba(255, 255, 255, 1);
+
+    font-size: calc(var(--size) * 20);
+  }
+}

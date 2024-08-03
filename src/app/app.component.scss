@@ -1,0 +1,32 @@
+@import "https://fonts.googleapis.com/css?family=Lilita+One:300,400,600,700";
+
+:host {
+  --font-primary: "Lilita One", sans-serif, Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+
+  --size: 4px;
+  --text-size: 2rem;
+  --text-size--title: 2rem;
+  --text-size--subtitle: 2rem;
+
+  @media screen and (min-width: 650px) {
+    --text-size--title: 3.125rem;
+    --text-size--subtitle: 3rem;
+  }
+}
+
+.main {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 2rem;
+
+  display: grid;
+  grid-template-rows: min-content auto;
+
+  .pages {
+    padding-top: var(--text-size);
+  }
+}
