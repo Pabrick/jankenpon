@@ -24,6 +24,7 @@ export class SelectionPageComponent {
 
   onClickOpponentRemote() {
     this.gameSrv.opponent = 'remote';
-    alert('Sorry, not ready yet');
+    // alert('Sorry, not ready yet');
+    this.router.navigate(['./game']);
   }
 }

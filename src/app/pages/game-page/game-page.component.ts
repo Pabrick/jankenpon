@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { PlayerComponent } from '../../components/player/player.component';
 import {
+  Player,
   PlayerChoice,
   PlayerEmitter,
   PlayerScoreboard,
 } from '../../types/player.types';
 import { GameService } from '../../services/game.service';
+import { WebsocketService } from '../../services/websocket.service';
 
 @Component({
   selector: 'game-page',
@@ -18,12 +20,21 @@ import { GameService } from '../../services/game.service';
 export class GamePageComponent {
   showAgainButton = false;
 
-  constructor(public readonly router: Router, public gameSrv: GameService) {
-    this.gameSrv.resetStates();
-    this.gameSrv.startGame();
+  constructor(
+    public readonly router: Router,
+    public gameSrv: GameService,
+    private websocketSrv: WebsocketService
+  ) {
+    this.gameSrv.initGame();
+    // this.gameSrv.startGame();
+  }
+
+  sendMsg(playerInfo: Player) {
+    this.websocketSrv.sendMessage(playerInfo);
   }
 
   onClickBack() {
+    this.gameSrv.closeGame();
     this.router.navigate(['./']);
   }
 
@@ -43,13 +54,17 @@ export class GamePageComponent {
 
   private stepName(playerNumber: number, playerEmmiter: PlayerEmitter) {
     const { name, score } = playerEmmiter.extra as PlayerScoreboard;
+
     if (playerNumber === 1) {
       this.gameSrv.player1 = {
         name,
         score,
       };
+
       this.gameSrv.updatePlayerState(1, 'wait');
-      this.gameSrv.updatePlayerState(2, 'name');
+      if (this.gameSrv.opponent !== 'remote') {
+        this.gameSrv.updatePlayerState(2, 'name');
+      }
     }
 
     if (playerNumber === 2) {
