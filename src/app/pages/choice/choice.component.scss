@@ -1,0 +1,58 @@
+@use "./../../styles/elements/button.scss";
+
+:host {
+  height: 100%;
+
+  --space-between: calc(var(--size) * 2);
+
+  display: grid;
+  grid-template-rows: auto min-content;
+  grid-template-columns: 100%;
+  gap: var(--space-between);
+  justify-content: center;
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-between);
+
+    @media screen and (min-width: 768px) {
+      flex-direction: row;
+    }
+
+    .choice {
+      flex: 1;
+      min-width: min-content;
+      width: 100%;
+
+      display: flex;
+      flex-direction: column;
+      align-self: center;
+      justify-content: center;
+      gap: calc(var(--size) * 4);
+
+      .button-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .bt-choice {
+        @extend .button;
+        box-sizing: border-box;
+        align-self: center;
+        width: min-content;
+        font-size: calc(var(--size) * 10);
+        margin: var(--size);
+        padding: calc(var(--size) * 4);
+      }
+
+      @media screen and (min-width: 768px) {
+        .bt-choice {
+          font-size: calc(var(--size) * 14);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+@if(gameBoard) {
+<div class="wrapper">
+  @for (player of gameBoard; track gameSrv.trackPlayers(i); let i = $index) {
+  <div class="box player-{{player.number}}-colors">
+    @if(player.state === 'wait') {
+    <section class="wait overlay"></section>
+    }
+
+    <section class="header">
+      <h2 class="title">{{ (player.state === 'wait' && player.name) ? player.name : 'Player ' + player.number}}</h2>
+      <div class="score">
+        @if(player.type === 'computer') {
+        <div class="score__icon">🤖</div>
+        }
+        @if(player.type !== 'computer') {
+        <div class="score__text">{{player.score}}</div>
+        <div class="score__icon">🏆</div>
+        }
+      </div>
+    </section>
+
+    @if(player.state !== 'wait') {
+    <section class="name">
+      <label>Write your name:</label>
+      <input class="input" type="text" placeholder="Player {{player.number}}" [(ngModel)]="player.name"
+        (keydown.enter)="handleSaveName(i)">
+      <button class="bt-save" (click)="handleSaveName(i)">
+        Save
+      </button>
+    </section>
+    }
+  </div>
+  }
+</div>
+}
+
+<game-footer />

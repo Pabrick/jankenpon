@@ -1,0 +1,39 @@
+@if(gameBoard) {
+<div class="wrapper">
+  @for (player of gameBoard; track gameSrv.trackPlayers(i); let i = $index) {
+  <div class="box player-{{player.number}}-colors">
+    @if(player.state === 'wait') {
+    <section class="wait overlay"></section>
+    }
+
+    <section class="header">
+      <h2 class="title">{{player.name}}</h2>
+      <div class="score">
+        @if(player.type === 'computer') {
+        <div class="score__icon">🤖</div>
+        }
+        @if(player.type !== 'computer') {
+        <div class="score__text">{{player.score}}</div>
+        <div class="score__icon">🏆</div>
+        }
+      </div>
+    </section>
+
+    @if(player.state !== 'wait') {
+    <section class="choice">
+      <label>Choose:</label>
+      <div class="button-wrapper">
+        @for (choice of choices; track choice; let j = $index) {
+        <button id="btChoice-{{choice.name}}" class="bt-choice" (click)="handleChoice(i, choice)">
+          {{choice.icon}}
+        </button>
+        }
+      </div>
+    </section>
+    }
+  </div>
+  }
+</div>
+}
+
+<game-footer />

@@ -26,7 +26,7 @@ export class StorageService {
 
   // get a player and its score if found in the PlayerScoreboard
   // otherwise returns undefined
-  getPlayer(name: string) {
+  getPlayer(name: string): PlayerScoreboard | undefined {
     return this.scoreboard.find((player) => player.name === name);
   }
 
