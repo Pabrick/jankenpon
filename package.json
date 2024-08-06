@@ -1,6 +1,6 @@
 {
   "name": "jankenpon",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "JANKENPON is the famous ROCK PAPER SCISSORS game built in Angular 18 for web",
   "author": "Pablo Jiménez Beneyto (@pabrick)",
   "scripts": {

@@ -1,16 +1,13 @@
+import { GameChoice } from './game.types';
+
 export type PlayerState = 'name' | 'wait' | 'choice' | 'timer' | 'result';
-export type PlayerChoice = 'rock' | 'paper' | 'scissors';
+
 export type PlayerResult = 'win' | 'lose' | 'tie';
 export type PlayerType = 'local' | 'remote' | 'computer';
 
 export interface PlayerEmitter {
   state: PlayerState;
-  extra: PlayerScoreboard | PlayerChoice;
-}
-
-export interface PlayerOutcome {
-  choice: PlayerChoice;
-  result: PlayerResult;
+  extra: PlayerScoreboard;
 }
 
 export interface PlayerScoreboard {
@@ -23,7 +20,7 @@ export type Player = {
   type?: PlayerType;
   name?: string;
   score?: number;
-  choice?: PlayerChoice;
+  choice?: GameChoice;
   result?: PlayerResult;
   state?: PlayerState;
 };
