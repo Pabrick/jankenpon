@@ -1,18 +1,28 @@
 import { Routes } from '@angular/router';
-import { SelectionPageComponent } from './pages/selection-page/selection-page.component';
-import { GamePageComponent } from './pages/game-page/game-page.component';
+import { SelectionComponent } from './pages/selection/selection.component';
+import { NameComponent } from './pages/name/name.component';
+import { ChoiceComponent } from './pages/choice/choice.component';
+import { ResultComponent } from './pages/result/result.component';
 
 export const routes: Routes = [
   {
-    path: '',
-    component: SelectionPageComponent,
+    path: 'selection',
+    component: SelectionComponent,
   },
   {
-    path: 'game',
-    component: GamePageComponent,
+    path: 'name',
+    component: NameComponent,
+  },
+  {
+    path: 'choice',
+    component: ChoiceComponent,
+  },
+  {
+    path: 'result',
+    component: ResultComponent,
   },
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: 'selection',
   },
 ];

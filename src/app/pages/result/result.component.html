@@ -1,0 +1,33 @@
+@if(gameBoard) {
+<div class="wrapper">
+  @for (player of gameBoard; track gameSrv.trackPlayers(i); let i = $index) {
+  <div class="box player-{{player.number}}-colors">
+
+    <section class="header">
+      <h2 class="title">{{player.name}}</h2>
+      <div class="score">
+        @if(player.type === 'computer') {
+        <div class="score__icon">🤖</div>
+        }
+        @if(player.type !== 'computer') {
+        <div class="score__text">{{player.score}}</div>
+        <div class="score__icon">🏆</div>
+        }
+      </div>
+    </section>
+
+    <section class="result">
+      @if(player.result; as result) {
+      <label>{{results[result]}}</label>
+      }
+
+      <div class="selection">
+        {{player.choice?.icon}}
+      </div>
+    </section>
+  </div>
+  }
+</div>
+}
+
+<game-footer [hasRematch]="true" />

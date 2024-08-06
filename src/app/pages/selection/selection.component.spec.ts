@@ -1,17 +1,17 @@
 import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 
-import { SelectionPageComponent } from './selection-page.component';
+import { SelectionComponent } from './selection.component';
 
-describe('SelectionPageComponent', () => {
-  let component: SelectionPageComponent;
-  let fixture: ComponentFixture<SelectionPageComponent>;
+describe('SelectionComponent', () => {
+  let component: SelectionComponent;
+  let fixture: ComponentFixture<SelectionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SelectionPageComponent],
+      imports: [SelectionComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SelectionPageComponent);
+    fixture = TestBed.createComponent(SelectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

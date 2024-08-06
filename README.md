@@ -91,6 +91,15 @@ _Remote playing mode has been simplify on the diagram for clarity of the rest of
 
 <br />
 
+# The Refactor after delivery
+
+After my initial delivery I tryed to implement the Remote functionality.
+I refactor some code and leave it prepared for scalability with more conts and types.
+
+Some functionality was extracted from this first MVP, but it will be added next, like for example the modal asking you if you want to use the saved score.
+
+You can check those test on the GitHistoy.
+
 # Out of Scope
 
 ## Play from different Browser

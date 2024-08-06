@@ -1,149 +1,124 @@
 import { Injectable } from '@angular/core';
 import {
   Player,
-  PlayerChoice,
   PlayerResult,
   PlayerState,
   PlayerType,
 } from '../types/player.types';
 import { BehaviorSubject } from 'rxjs';
 import { StorageService } from './storage.service';
+import { choices } from './../const/choices';
+import { Choice, GameChoice } from '../types/game.types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameService {
-  opponent!: PlayerType;
-
-  player1!: Player;
-  player1Sub = new BehaviorSubject<Player | undefined>(undefined);
-  player1$ = this.player1Sub.asObservable();
-
-  player2!: Player;
-  player2Sub = new BehaviorSubject<Player | undefined>(undefined);
-  player2$ = this.player2Sub.asObservable();
+  gameBoardSub = new BehaviorSubject<Player[] | undefined>(undefined);
+  gameBoard$ = this.gameBoardSub.asObservable();
+  gameBoard!: Player[];
+  playerAssigned = 0;
 
   constructor(private storageSrv: StorageService) {}
 
-  resetStates() {
-    this.player1 = {
-      number: 1,
-      type: 'local',
-      name: 'Player 1',
-      score: 0,
-    };
-    this.player2 = {
-      number: 2,
-      type: this.opponent,
-      name: this.opponent === 'computer' ? 'COMPUTER' : 'Player 2',
-      score: 0,
-    };
+  updateGameBoard() {
+    console.log('Update Game', this.gameBoard);
+    this.gameBoardSub.next(this.gameBoard);
   }
 
-  resetGame() {
-    this.updatePlayerState(1, 'choice');
-    this.updatePlayerState(2, 'wait');
-  }
+  newGame(playerCapacity: number, type: PlayerType) {
+    this.gameBoard = new Array(playerCapacity);
 
-  startGame() {
-    this.player1Sub.next({
-      ...this.player1,
-      state: 'name',
-    });
-    this.player2Sub.next({
-      ...this.player2,
-      state: 'wait',
-    });
-  }
-
-  updatePlayerState(playerNumber: number, state: PlayerState) {
-    if (playerNumber === 1) {
-      this.player1Sub.next({
-        ...this.player1,
-        state,
-      });
+    for (let i = 0; i < this.gameBoard.length; i++) {
+      this.gameBoard[i] = {
+        number: i + 1, // This number will be chosen by the WS
+        type: type === 'computer' && i === 0 ? 'local' : type,
+        score: 0,
+        state: 'wait',
+      };
     }
-    if (playerNumber === 2) {
-      this.player2Sub.next({
-        ...this.player2,
-        state,
-      });
+
+    this.playerAssigned = 0;
+    this.updateGameBoard();
+  }
+
+  newRound() {
+    for (let i = 0; i < this.gameBoard.length; i++) {
+      const currentPlayer = this.gameBoard[i];
+      this.gameBoard[i] = {
+        ...currentPlayer,
+        state: 'wait',
+        choice: undefined,
+        result: undefined,
+      };
     }
+    this.updateGameBoard();
   }
 
-  updateResult() {
-    const { p1, p2 } = this.getResult(
-      this.player1.choice as PlayerChoice,
-      this.player2.choice as PlayerChoice
-    );
-
-    const p1Score = this.player1.score || 0;
-    const p2Score = this.player2.score || 0;
-
-    this.player1 = {
-      ...this.player1,
-      result: p1,
-      score: p1 === 'win' ? p1Score + 1 : p1Score,
-    };
-
-    this.player2 = {
-      ...this.player2,
-      result: p2,
-      score: p2 === 'win' ? p2Score + 1 : p2Score,
-    };
+  setPlayerState(playerNumber: number, playerState: PlayerState) {
+    this.gameBoard[playerNumber].state = playerState;
+    this.updateGameBoard();
   }
 
-  getRandomChoice() {
-    const choices: PlayerChoice[] = ['rock', 'paper', 'scissors'];
+  setPlayerName(playerNumber: number, playerName?: string) {
+    const name = (
+      (playerName ?? this.gameBoard[playerNumber].name) as string
+    ).toLocaleLowerCase();
+    const player = this.storageSrv.getPlayer(name);
+    this.gameBoard[playerNumber].name = name;
+    this.gameBoard[playerNumber].score = player?.score ?? 0;
+    this.gameBoard[playerNumber].state = 'wait';
+    this.updateGameBoard();
+  }
+
+  setPlayerChoice(playerNumber: number, playerChoice: GameChoice) {
+    this.gameBoard[playerNumber].choice = playerChoice;
+    this.gameBoard[playerNumber].state = 'wait';
+    this.updateGameBoard();
+  }
+
+  updatePlayerScore(playerNumber: number, score: number) {
+    const prevScore = this.gameBoard[playerNumber].score as number;
+    this.gameBoard[playerNumber].score = prevScore + score;
+    this.gameBoard[playerNumber].state = 'result';
+
+    const player = this.gameBoard[playerNumber];
+    const playerName: string = player.name as string;
+    const playerScore: number = player.score as number;
+
+    const foundPlayer = this.storageSrv.getPlayer(playerName);
+    if (!foundPlayer) {
+      this.storageSrv.saveName(playerName);
+    }
+    this.storageSrv.saveScore(playerName, playerScore);
+
+    this.updateGameBoard();
+  }
+
+  // UTILS
+  trackPlayers(index: number) {
+    return `player${index}`;
+  }
+
+  getRandomChoice(): GameChoice {
     const randomIndex = Math.floor(Math.random() * choices.length);
     return choices[randomIndex];
   }
 
-  saveScore() {
-    this.storageSrv.saveScore(
-      this.player1.name as string,
-      this.player1.score as number
-    );
+  getResult(gameBoard: Player[], playerIndex: number): PlayerResult {
+    let result: PlayerResult = 'lose';
+    const choice = gameBoard[playerIndex].choice;
 
-    this.storageSrv.saveScore(
-      this.player2.name as string,
-      this.player2.score as number
-    );
-  }
-
-  private getResult(p1: PlayerChoice, p2: PlayerChoice) {
-    let p1Result: PlayerResult = 'tie';
-    let p2Result: PlayerResult = 'tie';
-
-    if (p1 === 'rock' && p2 === 'paper') {
-      p1Result = 'lose';
-      p2Result = 'win';
-    }
-    if (p1 === 'rock' && p2 === 'scissors') {
-      p1Result = 'win';
-      p2Result = 'lose';
-    }
-    if (p1 === 'paper' && p2 === 'rock') {
-      p1Result = 'win';
-      p2Result = 'lose';
-    }
-    if (p1 === 'paper' && p2 === 'scissors') {
-      p1Result = 'lose';
-      p2Result = 'win';
-    }
-
-    if (p1 === 'scissors' && p2 === 'rock') {
-      p1Result = 'lose';
-      p2Result = 'win';
-    }
-    if (p1 === 'scissors' && p2 === 'paper') {
-      p1Result = 'win';
-      p2Result = 'lose';
-    }
-
-    return {
-      p1: p1Result,
-      p2: p2Result,
-    };
+    gameBoard.forEach((player, index) => {
+      if (index !== playerIndex) {
+        if (choice?.name === player.choice?.name) {
+          result = 'tie';
+        }
+        if (choice?.beats.includes(player.choice?.name as Choice)) {
+          result = 'win';
+        }
+      }
+    });
+    return result;
   }
 }
