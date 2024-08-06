@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { GameService } from '../../services/game.service';
+import { GameService } from '../../services/game/game.service';
 import { PlayerType } from '../../types/player.types';
 import { selections as SELECTIONS } from './../../const/selections';
 

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { GameService } from '../../services/game.service';
+import { GameService } from '../../services/game/game.service';
 
 @Component({
   selector: 'game-footer',

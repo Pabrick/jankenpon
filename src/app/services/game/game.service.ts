@@ -4,11 +4,11 @@ import {
   PlayerResult,
   PlayerState,
   PlayerType,
-} from '../types/player.types';
+} from '../../types/player.types';
 import { BehaviorSubject } from 'rxjs';
-import { StorageService } from './storage.service';
-import { choices } from './../const/choices';
-import { Choice, GameChoice } from '../types/game.types';
+import { StorageService } from '../storage/storage.service';
+import { choices } from '../../const/choices';
+import { Choice, GameChoice } from '../../types/game.types';
 
 @Injectable({
   providedIn: 'root',

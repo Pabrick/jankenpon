@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PlayerScoreboard } from '../types/player.types';
+import { PlayerScoreboard } from '../../types/player.types';
 
 @Injectable({
   providedIn: 'root',

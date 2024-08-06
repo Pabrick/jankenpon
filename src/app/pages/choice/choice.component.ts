@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Player } from '../../types/player.types';
 import { Router } from '@angular/router';
-import { GameService } from '../../services/game.service';
+import { GameService } from '../../services/game/game.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { choices as CHOICES } from './../../const/choices';
 import { GameChoice } from '../../types/game.types';
