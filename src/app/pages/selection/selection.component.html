@@ -1,7 +1,8 @@
 <h2 class="page-title">Choose your opponent</h2>
 <section class="wrapper">
   @for (sel of selections; track gameSrv.trackPlayers(i); let i = $index) {
-  <button id="bt-{{sel.name}}" class="button bt-opponent" (click)="handleClickSelection(sel.name)">
+  <button id="bt-{{sel.name}}" class="button bt-opponent" (click)="handleClickSelection(sel.name)"
+    [disabled]="disabledButtons">
     <div class="bt-opponent__icon">{{sel.icon}}</div>
     <div class="bt-opponent__text">{{sel.text}}</div>
   </button>

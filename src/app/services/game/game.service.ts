@@ -5,10 +5,11 @@ import {
   PlayerState,
   PlayerType,
 } from '../../types/player.types';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { StorageService } from '../storage/storage.service';
 import { choices } from '../../const/choices';
 import { Choice, GameChoice } from '../../types/game.types';
+import { WebsocketService } from '../websockets/websocket.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,29 +17,42 @@ import { Choice, GameChoice } from '../../types/game.types';
 export class GameService {
   gameBoardSub = new BehaviorSubject<Player[] | undefined>(undefined);
   gameBoard$ = this.gameBoardSub.asObservable();
-  gameBoard!: Player[];
-  playerAssigned = 0;
+  gameBoard: Player[] = [];
 
-  constructor(private storageSrv: StorageService) {}
+  socketSubscription!: Subscription;
+  playerAssigned$!: Observable<number>;
+  indexAssigned = 0;
 
-  updateGameBoard() {
-    console.log('Update Game', this.gameBoard);
-    this.gameBoardSub.next(this.gameBoard);
+  constructor(
+    private storageSrv: StorageService,
+    private websocketSrv: WebsocketService
+  ) {}
+
+  addNewPlayer(type: PlayerType) {
+    const lastIndex = this.gameBoard.length;
+    this.gameBoard.push({
+      number: lastIndex + 1,
+      type: type === 'computer' && lastIndex === 0 ? 'local' : type,
+      score: 0,
+      state: type === 'remote' ? 'connect' : 'wait',
+    });
   }
 
-  newGame(playerCapacity: number, type: PlayerType) {
-    this.gameBoard = new Array(playerCapacity);
+  newGame(type: PlayerType) {
+    this.resetGame();
 
-    for (let i = 0; i < this.gameBoard.length; i++) {
-      this.gameBoard[i] = {
-        number: i + 1, // This number will be chosen by the WS
-        type: type === 'computer' && i === 0 ? 'local' : type,
-        score: 0,
-        state: 'wait',
-      };
+    // Check for previous players
+    this.addNewPlayer(type);
+
+    // If more than 2 players this is the code that should be updated
+    if (type === 'computer' || type === 'local') {
+      this.addNewPlayer(type);
     }
 
-    this.playerAssigned = 0;
+    if (type === 'remote') {
+      this.listenRemoteUpdates();
+    }
+
     this.updateGameBoard();
   }
 
@@ -55,6 +69,10 @@ export class GameService {
     this.updateGameBoard();
   }
 
+  setPlayerAssigned(playerAssigned: number) {
+    this.indexAssigned = playerAssigned - 1;
+  }
+
   setPlayerState(playerNumber: number, playerState: PlayerState) {
     this.gameBoard[playerNumber].state = playerState;
     this.updateGameBoard();
@@ -64,9 +82,9 @@ export class GameService {
     const name = (
       (playerName ?? this.gameBoard[playerNumber].name) as string
     ).toLocaleLowerCase();
-    const player = this.storageSrv.getPlayer(name);
+    const playerFound = this.storageSrv.getPlayer(name);
     this.gameBoard[playerNumber].name = name;
-    this.gameBoard[playerNumber].score = player?.score ?? 0;
+    this.gameBoard[playerNumber].score = playerFound?.score ?? 0;
     this.gameBoard[playerNumber].state = 'wait';
     this.updateGameBoard();
   }
@@ -93,6 +111,33 @@ export class GameService {
     this.storageSrv.saveScore(playerName, playerScore);
 
     this.updateGameBoard();
+  }
+
+  updateGameBoard(sendBack = true) {
+    console.log('Update Game', this.gameBoard);
+    this.gameBoardSub.next(this.gameBoard);
+    const isRemote = this.gameBoard[0].type;
+    if (isRemote && sendBack) {
+      this.websocketSrv.sendMessage(this.gameBoard);
+    }
+  }
+
+  listenRemoteUpdates() {
+    this.playerAssigned$ = this.websocketSrv.playerAssigned$;
+    this.socketSubscription = this.websocketSrv.gameBoard$.subscribe(
+      (response) => {
+        if (response.length) {
+          this.gameBoard = response;
+          this.updateGameBoard(false);
+        }
+      }
+    );
+    this.websocketSrv.openWSConnection();
+  }
+
+  resetGame() {
+    this.gameBoard = [];
+    this.socketSubscription?.unsubscribe();
   }
 
   // UTILS

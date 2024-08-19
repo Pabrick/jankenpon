@@ -34,7 +34,20 @@ export class NameComponent {
           this.gameBoard[i].name = 'Computer';
         }
 
-        if (currentPlayer.name === undefined) {
+        if (
+          currentPlayer.name === undefined &&
+          currentPlayer.type !== 'remote'
+        ) {
+          this.gameBoard[i].state = 'name';
+          return;
+        }
+
+        if (
+          currentPlayer.name === undefined &&
+          currentPlayer.type === 'remote' &&
+          currentPlayer.state === 'wait' &&
+          this.gameSrv.indexAssigned === i
+        ) {
           this.gameBoard[i].state = 'name';
           return;
         }

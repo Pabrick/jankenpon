@@ -2,7 +2,7 @@
 <div class="wrapper">
   @for (player of gameBoard; track gameSrv.trackPlayers(i); let i = $index) {
   <div class="box player-{{player.number}}-colors">
-    @if(player.state === 'wait') {
+    @if(player.state === 'wait' || player.state === 'connect') {
     <section class="wait overlay"></section>
     }
 
@@ -19,7 +19,7 @@
       </div>
     </section>
 
-    @if(player.state !== 'wait') {
+    @if(player.state !== 'wait' && player.state !== 'connect') {
     <section class="name">
       <label>Write your name:</label>
       <input class="input" type="text" placeholder="Player {{player.number}}" [(ngModel)]="player.name"

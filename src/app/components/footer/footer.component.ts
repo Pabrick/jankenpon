@@ -17,6 +17,7 @@ export class FooterComponent {
   ) {}
 
   handleClickBack() {
+    this.gameSrv.resetGame();
     this.router.navigate(['./']);
   }
 

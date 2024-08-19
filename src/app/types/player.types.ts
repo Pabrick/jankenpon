@@ -1,6 +1,6 @@
 import { GameChoice } from './game.types';
 
-export type PlayerState = 'name' | 'wait' | 'choice' | 'timer' | 'result';
+export type PlayerState = 'connect' | 'name' | 'wait' | 'choice' | 'result';
 
 export type PlayerResult = 'win' | 'lose' | 'tie';
 export type PlayerType = 'local' | 'remote' | 'computer';
