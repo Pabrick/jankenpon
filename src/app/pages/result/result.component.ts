@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Player } from '../../types/player.types';
-import { GameService } from '../../services/game.service';
-import { FooterComponent } from '../../components/footer/footer.component';
-import { choices as CHOICES } from './../../const/choices';
-import { results as RESULTS } from './../../const/results';
+import { Player } from '@/types/player.types';
+import { GameService } from '@/services/game.service';
+import { FooterComponent } from '@/components/footer/footer.component';
+import { choices as CHOICES } from '@/const/choices';
+import { results as RESULTS } from '@/const/results';
 
 @Component({
   selector: 'app-result',

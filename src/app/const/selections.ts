@@ -1,4 +1,4 @@
-import { PlayerType } from '../types/player.types';
+import { PlayerType } from '@/types/player.types';
 
 export const selections: { name: PlayerType; text: string; icon: string }[] = [
   {

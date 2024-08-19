@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { GameService } from '../../services/game.service';
-import { PlayerType } from '../../types/player.types';
-import { selections as SELECTIONS } from './../../const/selections';
+import { GameService } from '@/services/game.service';
+import { PlayerType } from '@/types/player.types';
+import { selections as SELECTIONS } from '@/const/selections';
 
 @Component({
   selector: 'selection',
