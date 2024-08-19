@@ -1,5 +1,5 @@
-@use "./../../styles/elements/box.scss";
-@use "./../../styles/elements/text.scss";
+@use "@/styles/elements/box.scss";
+@use "@/styles/elements/text.scss";
 
 :host {
   @extend .box;

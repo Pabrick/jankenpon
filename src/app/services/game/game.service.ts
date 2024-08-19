@@ -4,12 +4,12 @@ import {
   PlayerResult,
   PlayerState,
   PlayerType,
-} from '../../types/player.types';
+} from '@/types/player.types';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { StorageService } from '../storage/storage.service';
-import { choices } from '../../const/choices';
-import { Choice, GameChoice } from '../../types/game.types';
-import { WebsocketService } from '../websockets/websocket.service';
+import { choices } from '@/const/choices';
+import { Choice, GameChoice } from '@/types/game.types';
+import { StorageService } from '@/services/storage/storage.service';
+import { WebsocketService } from '@/services/websockets/websocket.service';
 
 @Injectable({
   providedIn: 'root',
