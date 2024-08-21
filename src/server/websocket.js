@@ -1,7 +1,7 @@
 const WebSocket = require("ws");
 
 const PORT = 3000;
-const gameBoard = [];
+let gameBoard = [];
 
 const wss = new WebSocket.Server({ port: PORT });
 

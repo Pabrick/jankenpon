@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { webSocket } from 'rxjs/webSocket';
-import { Player } from '../../types/player.types';
+import { Player } from '@/types/player.types';
 
 const WS_PORT = '3000';
 const WS_SERVER = 'ws://localhost';
